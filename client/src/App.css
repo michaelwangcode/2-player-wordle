@@ -1,12 +1,15 @@
+/* Note: this .App conflicts with .App in the other css file */
 .App {
   width: 100vw;
   height: 100vh;
-  background: #fff;
-  color: #212121;
+  /*background: #fff;*/
+  /*color: #212121;*/
   font-family: "Open Sans", sans-serif;
   display: grid;
   place-items: center;
 }
+
+
 body {
   margin: 0%;
   padding: 0%;
