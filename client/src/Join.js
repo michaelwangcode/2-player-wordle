@@ -2,6 +2,9 @@ import './App.css';
 import io from 'socket.io-client';     // Import the socket.io-client library
 import { useState } from "react";
 import Chat from "./Chat";
+import TwoPlayerApp from "./2Player/App";
+
+
 
 // Specify the socket URL
 const socket = io.connect("http://localhost:3001");
@@ -76,9 +79,13 @@ function Join() {
       // If the chat is being displayed, display the chat component
     : (
 
-      /* Chat component */
-      <Chat socket={socket} username={username} room={room} />
+      <div>
+        {/* Two Player Wordle component */}
+        <TwoPlayerApp />
 
+        {/* Chat component */}
+        <Chat socket={socket} username={username} room={room} />
+      </div>
     )}
     </div>
   );

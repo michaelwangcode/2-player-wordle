@@ -115,7 +115,7 @@ function App() {
           <button onClick={backToHome}>Back</button>
 
           {/* Display the Join window component */}
-        <TwoPlayerApp />
+        {/*<TwoPlayerApp />*/}
           <Join/>
         </div>
       )}
