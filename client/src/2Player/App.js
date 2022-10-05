@@ -9,7 +9,7 @@ export const AppContext = createContext();
 
 
 // The 2 Player Wordle App Component
-function App() {
+function App({socket, username, room}) {
 
 
   // Add useState hooks for the variables in the App
@@ -25,6 +25,7 @@ function App() {
   const [correctWord, setCorrectWord] = useState("")
 
 
+
   // The useEffect hook performs the following actions when the app first loads
   useEffect(() => {
 
@@ -38,21 +39,43 @@ function App() {
 
   // This function performs actions when a letter is typed
   const onSelectLetter = (keyVal) => {
+
+    // Print the letter to the console
     console.log("text", board)
+
+    // If there are 5 letters in the row already, return without doing anything
     if (currAttempt.letterPos > 4) return;
+
+    // Create a copy of the board called newBoard
     const newBoard = [...board];
+
+    // Set the board at [x,y] to the key value
     newBoard[currAttempt.attempt][currAttempt.letterPos] = keyVal;
+
+    // Set the board to newBoard
     setBoard(newBoard);
+
+    // Call the setCurrAttempt function to update the current attempt
     setCurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos += 1 })
   }
   
 
   // This function performs actions when a letter is deleted
   const onDelete = () => {
+
+    // If there are no letters to delete, return without doing anything
     if (currAttempt.letterPos === 0) return;
+
+    // Create a copy of the board called newBoard
     const newBoard = [...board];
+
+    // Set the board at [x,y-1] to a blank character
     newBoard[currAttempt.attempt][currAttempt.letterPos - 1] = "";
-    setBoard(newBoard)
+
+    // Set the board to newBoard
+    setBoard(newBoard);
+
+    // Call the setCurrAttempt function to update the current attempt
     setCurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos -= 1 })
   }
   
@@ -72,12 +95,17 @@ function App() {
     // If the word exists in the word bank, add it as an attempt
     if (wordSet.has(currentWord.toLowerCase())) {
       setCurrAttempt({ attempt: currAttempt.attempt += 1, letterPos: currAttempt.letterPos = 0 })
+    
+      //----- SOCKET FUNCTION CALL -----//
+      // Call the socket function sendMessage to send the current word to the opponent
+      sendMessage(currentWord);
+    
     // Otherwise tell the user that the word doesn't exist
     } else {
       alert("Word not found!")
     }
   
-    // If the user guesses the corrext word, the game is over
+    // If the user guesses the correct word, the game is over
     if (currentWord.toLowerCase() === correctWord) {
       setGameOver({ gameOver: true, guessedWord: true })
       return;
@@ -89,6 +117,47 @@ function App() {
     }
   }
 
+
+  
+  //----- SOCKET FUNCTIONS -----//
+  
+  // Send a message (object of data) through the socket.io server
+  // It takes the currentWord as an argument
+  const sendMessage = async (currentWord) => {
+
+    // Store the room ID, username, currentWord and board state in a data object
+    const messageData = {
+      room: room,
+      author: username,
+      message: currentWord,
+      board: board
+    }
+
+    // Emit the message using the name send_message
+    await socket.emit("send_message", messageData);
+
+    // Print a message to the console
+    console.log("DATA SENT: " + messageData.message)
+  }
+  
+
+  // The useEffect hook calls the following function whenever there is a change in the socket server
+  useEffect(() => {
+
+    // Listen for the recieve_message event and perform the following actions
+    socket.on("recieve_message", (data) => {
+
+      //------- SET THE SECOND BOARD TO THE RECIEVED DATA --------//
+      // Set the second board on the screen to the opponent's board
+      setBoard2(data.board);
+
+      // Print a message to the console
+      console.log("DATA RECIEVED: " + data.message);
+    })
+  }, [socket])
+  
+
+  
 
 
   // Return the 2 Player Wordle Component
@@ -115,6 +184,7 @@ function App() {
             <Board currentBoard={board}/>
             <Board currentBoard={board2}/>
           </div>
+          
           {gameOver.gameOver ? <GameOver /> : <Keyboard onSelectLetter={onSelectLetter}/>}
         </div>
 

@@ -1,7 +1,7 @@
 import './App.css';
 import io from 'socket.io-client';     // Import the socket.io-client library
 import { useState } from "react";
-import Chat from "./Chat";
+// import Chat from "./Chat";
 import TwoPlayerApp from "./2Player/App";
 
 
@@ -42,7 +42,6 @@ function Join() {
 
     <div className="App">
 
-
       {/* If the chat is not being displayed, display the "Join" input fields */}
       { !showChat ? (
 
@@ -81,16 +80,14 @@ function Join() {
 
       <div>
         {/* Two Player Wordle component */}
-        <TwoPlayerApp />
+        <TwoPlayerApp socket={socket} username={username} room={room}/>
 
         {/* Chat component */}
-        <Chat socket={socket} username={username} room={room} />
+        {/* <Chat socket={socket} username={username} room={room} /> */}
       </div>
     )}
     </div>
   );
-
-
 
 }
 

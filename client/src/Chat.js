@@ -6,6 +6,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';    // This library allows t
 // The socket, username and room in App.js are passed as props in the Chat component
 function Chat({socket, username, room}) {
 
+  
   // Add a hook for the message in the chat
   const [currentMessage, setCurrentMessage] = useState("");
 
@@ -40,7 +41,7 @@ function Chat({socket, username, room}) {
     }
   };
 
-
+  
   // The useEffect hook calls the following function whenever there is a change in the socket server
   useEffect(() => {
 
@@ -52,7 +53,7 @@ function Chat({socket, username, room}) {
     })
 
   }, [socket])
-
+  
 
 
   // Return the Chat component

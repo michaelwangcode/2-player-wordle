@@ -1,9 +1,7 @@
 import './App.css';
 import { useState } from "react";
-
 import Join from "./Join";
 import OnePlayerApp from "./1Player/App";
-import TwoPlayerApp from "./2Player/App";
 
 
 
@@ -111,11 +109,7 @@ function App() {
       {/* If show2PlayerGame is true, display a 2 Player Game */}
       {show2PlayerGame && (
         <div>
-          {/* Back to Home Button */}
-          <button onClick={backToHome}>Back</button>
-
           {/* Display the Join window component */}
-        {/*<TwoPlayerApp />*/}
           <Join/>
         </div>
       )}
