@@ -3,6 +3,8 @@ import { useState } from "react";
 
 import Join from "./Join";
 import OnePlayerApp from "./1Player/App";
+import TwoPlayerApp from "./2Player/App";
+
 
 
 // The main application component
@@ -113,6 +115,7 @@ function App() {
           <button onClick={backToHome}>Back</button>
 
           {/* Display the Join window component */}
+        <TwoPlayerApp />
           <Join/>
         </div>
       )}
