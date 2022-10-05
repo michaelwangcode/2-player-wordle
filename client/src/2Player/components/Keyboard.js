@@ -74,7 +74,7 @@ function Keyboard({onSelectLetter}) {
           }
 
           // Return the key component with value and styling (colour)
-          return <Key keyVal={key} styling={styling}/>;
+          return <Key keyVal={key} styling={styling} onSelectLetter={onSelectLetter}/>;
         })}
       </div>
       <div className='line2'>
@@ -94,7 +94,7 @@ function Keyboard({onSelectLetter}) {
           }
 
           // Return the key component with value and styling (colour)
-          return <Key keyVal={key} styling={styling}/>;
+          return <Key keyVal={key} styling={styling} onSelectLetter={onSelectLetter}/>;
       })}
       </div>
       <div className='line3'>
@@ -115,7 +115,7 @@ function Keyboard({onSelectLetter}) {
           }
 
           // Return the key component with value and styling (colour)
-          return <Key keyVal={key} styling={styling}/>;        
+          return <Key keyVal={key} styling={styling} onSelectLetter={onSelectLetter}/>;        
         })}
         <Key keyVal={"DELETE"} bigKey />
       </div>
