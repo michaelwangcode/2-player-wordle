@@ -1,5 +1,6 @@
 import './2PlayerApp.css';
 import Board from './components/Board';
+import BoardOpponent from './components/BoardOpponent';
 import Keyboard from './components/Keyboard';
 import GameOver from './components/GameOver';
 import { createContext, useEffect, useState } from "react";
@@ -29,8 +30,11 @@ function App({socket, username, room}) {
     gameOver: false,
     guessedWord: false
   })
-  const [correctWord, setCorrectWord] = useState("")
 
+  // Store the user's secret word
+  const [correctWord, setCorrectWord] = useState("");
+
+  const [opponentsWord, setOpponentsWord] = useState("");
 
   // The useEffect hook performs the following actions when the app first loads
   useEffect(() => {
@@ -136,7 +140,8 @@ function App({socket, username, room}) {
       room: room,
       author: username,
       message: currentWord,
-      board: board
+      board: board,
+      correctWord: correctWord
     }
 
     // Emit the message using the name send_message
@@ -156,6 +161,9 @@ function App({socket, username, room}) {
       //------- SET THE SECOND BOARD TO THE RECIEVED DATA --------//
       // Set the second board on the screen to the opponent's board
       setBoard2(data.board);
+
+      setOpponentsWord(data.correctWord);
+
 
       // Print a message to the console
       console.log("DATA RECIEVED: " + data.message);
@@ -191,7 +199,7 @@ function App({socket, username, room}) {
         <div className='game'>
           <div className='two-boards'>
             <Board currentBoard={board}/>
-            <Board currentBoard={board2}/>
+            <BoardOpponent currentBoard={board2} secretWord={opponentsWord}/>
           </div>
           
           {gameOver.gameOver ? <GameOver /> : <Keyboard onSelectLetter={onSelectLetter}/>}

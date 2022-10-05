@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Letter from './Letter';
 
+
+
+// This is the component for the your Board
 function Board({currentBoard}) {  
 
   return (    
