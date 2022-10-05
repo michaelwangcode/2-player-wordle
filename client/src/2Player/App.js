@@ -8,6 +8,7 @@ import { boardDefault, boardDefault2, generateWordSet } from './components/Words
 export const AppContext = createContext();
 
 
+
 // The 2 Player Wordle App Component
 function App({socket, username, room}) {
 
@@ -17,13 +18,18 @@ function App({socket, username, room}) {
   const [board2, setBoard2] = useState(boardDefault2);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
+
+  // Store an array of disabled, almost and correct letters for the keyboard
   const [disabledLetters, setDisabledLetters] = useState([]);
+  const [almostLetters, setAlmostLetters] = useState([]);
+  const [correctLetters, setCorrectLetters] = useState([]);
+
+  // Store whether the game is over
   const [gameOver, setGameOver] = useState({
     gameOver: false,
     guessedWord: false
   })
   const [correctWord, setCorrectWord] = useState("")
-
 
 
   // The useEffect hook performs the following actions when the app first loads
@@ -157,7 +163,6 @@ function App({socket, username, room}) {
   }, [socket])
   
 
-  
 
 
   // Return the 2 Player Wordle Component
@@ -175,6 +180,10 @@ function App({socket, username, room}) {
         correctWord,
         setDisabledLetters,
         disabledLetters,
+        setAlmostLetters,
+        almostLetters,
+        setCorrectLetters,
+        correctLetters,
         setGameOver,
         gameOver
       }}>
