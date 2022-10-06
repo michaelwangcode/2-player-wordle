@@ -6,9 +6,12 @@ const cors = require('cors');             // Import cors because socket.io has c
 const { Server } = require("socket.io");  // Import from the socket.io library
 const db = require("./db/connection");
 
+const statsRoute = require("./routes/stats");
+
 // Use cors middleware to resolve issues
 app.use(cors());
 
+app.use('/api/stats', statsRoute(db));
 
 // Create a server and pass in the app variable
 const server = http.createServer(app);
