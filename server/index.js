@@ -1,8 +1,10 @@
+require("dotenv").config();
 const express = require('express');       // Import express
 const app = express();                    // Set app variable to instance of express funciton
 const http = require("http");             // Import http library to build server with socket.io
 const cors = require('cors');             // Import cors because socket.io has cors issues
 const { Server } = require("socket.io");  // Import from the socket.io library
+const db = require("./db/connection");
 
 // Use cors middleware to resolve issues
 app.use(cors());
