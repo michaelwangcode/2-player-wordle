@@ -26,16 +26,47 @@ function App({socket, username, room}) {
   const [correctLetters, setCorrectLetters] = useState([]);
 
   // Store whether the game is over
-  const [gameOver, setGameOver] = useState({
-    gameOver: false,
-    guessedWord: false
-  })
+  const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
 
   // Store the user's secret word
   const [correctWord, setCorrectWord] = useState("");
 
+  // Store the opponent's secret word
   const [opponentsWord, setOpponentsWord] = useState("");
 
+  
+
+  // This function starts a new game after a game has been played
+  // It is passed to the GameOver component and called in the EnterPressed function
+  const startNewGame = () => {
+
+
+    // Create a blank board
+    const blankBoard =   
+      [["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""]];
+
+    // Reset all of the hooks to their default values
+    setBoard(blankBoard);
+    setCurrAttempt({attempt: 0, letterPos: 0});
+    setWordSet(new Set());
+    setDisabledLetters([]);
+    setAlmostLetters([]);
+    setCorrectLetters([]);
+    setGameOver({ gameOver: false, guessedWord: false });
+
+    // Generate a new secret word
+    generateWordSet().then((words) => {
+      setWordSet(words.wordSet);
+      setCorrectWord(words.todaysWord)
+    })
+  }
+
+  
   // The useEffect hook performs the following actions when the app first loads
   useEffect(() => {
 
@@ -202,7 +233,7 @@ function App({socket, username, room}) {
             <BoardOpponent currentBoard={board2} secretWord={opponentsWord}/>
           </div>
           
-          {gameOver.gameOver ? <GameOver /> : <Keyboard onSelectLetter={onSelectLetter}/>}
+          {gameOver.gameOver ? <GameOver startNewGame={startNewGame}/> : <Keyboard onSelectLetter={onSelectLetter}/>}
         </div>
 
       </AppContext.Provider>
@@ -210,6 +241,5 @@ function App({socket, username, room}) {
 
   );
 }
-
 
 export default App;

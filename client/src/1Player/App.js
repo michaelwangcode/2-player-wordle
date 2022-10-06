@@ -12,7 +12,6 @@ export const AppContext = createContext();
 // The 1 Player Wordle App Component
 function App() {
 
-  
   // Add useState hooks for the variables in the App
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
@@ -24,11 +23,44 @@ function App() {
   const [correctLetters, setCorrectLetters] = useState([]);
 
   // Store whether the game is over
-  const [gameOver, setGameOver] = useState({
-    gameOver: false,
-    guessedWord: false
-  })
+  const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
+
+  // Store the correct word
   const [correctWord, setCorrectWord] = useState("")
+
+
+
+  // This function starts a new game after a game has been played
+  // It is passed to the GameOver component and called in the EnterPressed function
+  const startNewGame = () => {
+
+    // alert("NEW GAME STARTED");
+    // console.log("NEW GAME STARTED");
+
+    // Create a blank board
+    const blankBoard =   
+      [["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""]];
+
+    // Reset all of the hooks to their default values
+    setBoard(blankBoard);
+    setCurrAttempt({attempt: 0, letterPos: 0});
+    setWordSet(new Set());
+    setDisabledLetters([]);
+    setAlmostLetters([]);
+    setCorrectLetters([]);
+    setGameOver({ gameOver: false, guessedWord: false });
+
+    // Generate a new secret word
+    generateWordSet().then((words) => {
+      setWordSet(words.wordSet);
+      setCorrectWord(words.todaysWord)
+    })
+  }
 
 
   // The useEffect hook performs the following actions when the app first loads
@@ -83,7 +115,6 @@ function App() {
     if (currAttempt.attempt === 6) {
       setGameOver({ gameOver: true, guessedWord: false })
     }
-
   }
 
 
@@ -115,7 +146,7 @@ function App() {
 
         <div className='game'>
           <Board />
-          {gameOver.gameOver ? <GameOver /> : <Keyboard />}
+          {gameOver.gameOver ? <GameOver startNewGame={startNewGame}/> : <Keyboard />}
         </div>
 
       </AppContext.Provider>

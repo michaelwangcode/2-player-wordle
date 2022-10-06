@@ -3,7 +3,7 @@ import Letter from './Letter';
 
 
 
-// This is the component for the your Board
+// This is the component for your Board
 function Board({currentBoard}) {  
 
   return (    
