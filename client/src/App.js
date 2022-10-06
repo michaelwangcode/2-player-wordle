@@ -98,9 +98,6 @@ function App() {
       {/* If show1PlayerGame is true, display a 1 Player Game */}
       {show1PlayerGame && (
         <div>
-          {/* Back to Home Button */}
-          <button onClick={backToHome}>Back</button>
-
           {/* Display a 1 Player Game */}
           <OnePlayerApp />
         </div>
@@ -109,7 +106,7 @@ function App() {
       {/* If show2PlayerGame is true, display a 2 Player Game */}
       {show2PlayerGame && (
         <div>
-          {/* Display the Join window component */}
+          {/* Display the Join 2 Player Game Socket component */}
           <Join/>
         </div>
       )}

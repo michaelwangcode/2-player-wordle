@@ -6,7 +6,7 @@ import { AppContext } from '../App';
 // This is the Letter component for the Board
 function Letter({ letterPos, attemptVal }) {
 
-    // Store the keyboard commands and arrays of guessed letters in a global state hook (useContext)
+  // Store the keyboard commands and arrays of guessed letters in a global state hook (useContext)
   const { board, correctWord, currAttempt, setDisabledLetters, setAlmostLetters, setCorrectLetters } = useContext(AppContext);
 
   // Store the letter

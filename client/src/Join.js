@@ -52,7 +52,7 @@ function Join() {
         {/* Create a text field for the username */}
         <input 
           type="text" 
-          placeholder="Enter your name..."
+          placeholder="Enter Your Name"
           onChange={(event) => {
             // Set the username to the text in the input field
             setUsername(event.target.value);
@@ -62,7 +62,7 @@ function Join() {
         {/* Create a text field for the room ID */}
         <input 
           type="text" 
-          placeholder="Enter a room ID..."
+          placeholder="Enter a Room ID"
           onChange={(event) => {
             // Set the room ID to the text in the input field
             setRoom(event.target.value);
