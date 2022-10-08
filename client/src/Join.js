@@ -17,8 +17,8 @@ function Join() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
 
-  // Hook that determines whether or not to show the chat
-  const [showChat, setShowChat] = useState(false);
+  // Hook that determines whether or not to show the 2 Player game
+  const [showGame, setShowGame] = useState(false);
 
 
   // This function joins a room
@@ -31,8 +31,8 @@ function Join() {
       // Emit an event named "join_room" to the server and pass it data (room)
       socket.emit("join_room", room);
 
-      // Set showChat to true, which will display the chat component
-      setShowChat(true);
+      // Set showGame to true, which will display the game component
+      setShowGame(true);
     }
   };
 
@@ -42,12 +42,12 @@ function Join() {
 
     <div className="App">
 
-      {/* If the chat is not being displayed, display the "Join" input fields */}
-      { !showChat ? (
+      {/* If the game is not being displayed, display the "Join" input fields */}
+      { !showGame ? (
 
       <div className="joinChatContainer">
 
-        <h3>Join A Chat</h3>
+        <h3>Join A Game</h3>
 
         {/* Create a text field for the username */}
         <input 
@@ -75,7 +75,7 @@ function Join() {
 
       )
       
-      // If the chat is being displayed, display the chat component
+      // If the game is being displayed, display the game component
     : (
 
       <div>

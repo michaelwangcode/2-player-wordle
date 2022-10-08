@@ -56,8 +56,11 @@ function Keyboard() {
 
   // Return the Keyboard Component
   return (
+
     <div className='keyboard' onKeyDown={handleKeyboard}>
+      
       <div className='line1'>
+
         {keys1.map((key) => {
 
           // Apply the correct color for each key
@@ -77,7 +80,9 @@ function Keyboard() {
           return <Key keyVal={key} styling={styling}/>;
         })}
       </div>
+
       <div className='line2'>
+
         {keys2.map((key) => {
 
           // Apply the correct color for each key
@@ -97,7 +102,9 @@ function Keyboard() {
           return <Key keyVal={key} styling={styling}/>;
         })}
       </div>
+
       <div className='line3'>
+
         <Key keyVal={"ENTER"} bigKey />
         {keys3.map((key) => {
 
@@ -119,6 +126,7 @@ function Keyboard() {
         })}
         <Key keyVal={"DELETE"} bigKey />
       </div>
+      
     </div>
   )
 }

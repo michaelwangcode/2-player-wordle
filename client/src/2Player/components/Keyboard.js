@@ -5,7 +5,7 @@ import Key from './Key';
 
 
 // This is the on-screen Keyboard component
-function Keyboard({onSelectLetter}) {
+function Keyboard({onSelectLetter, isEnabled}) {
 
   // Store the keyboard commands and arrays of guessed letters in a global state hook (useContext)
   const { onEnter, onDelete, disabledLetters, almostLetters, correctLetters } = useContext(AppContext);
@@ -45,18 +45,27 @@ function Keyboard({onSelectLetter}) {
 
   // Actions performed every time the handleKeyboard function changes
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyboard)
 
-    return () => {
-      document.removeEventListener("keydown", handleKeyboard)
-    };
+    // If the Keyboard is enabled,
+    if (isEnabled) {
+
+      // Add an event listener
+      document.addEventListener("keydown", handleKeyboard)
+
+      return () => {
+        // Remove the event listener
+        document.removeEventListener("keydown", handleKeyboard)
+      };
+    }
   }, [handleKeyboard])
 
 
 
   // Return the Keyboard Component
   return (
+
     <div className='keyboard' onKeyDown={handleKeyboard}>
+
       <div className='line1'>
         {keys1.map((key) => {
 
@@ -77,6 +86,7 @@ function Keyboard({onSelectLetter}) {
           return <Key keyVal={key} styling={styling} onSelectLetter={onSelectLetter}/>;
         })}
       </div>
+
       <div className='line2'>
         {keys2.map((key) => {
 
@@ -97,6 +107,7 @@ function Keyboard({onSelectLetter}) {
           return <Key keyVal={key} styling={styling} onSelectLetter={onSelectLetter}/>;
       })}
       </div>
+      
       <div className='line3'>
         <Key keyVal={"ENTER"} bigKey />
         {keys3.map((key) => {

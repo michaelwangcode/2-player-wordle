@@ -34,12 +34,20 @@ function App({socket, username, room}) {
   // Store the opponent's secret word
   const [opponentsWord, setOpponentsWord] = useState("");
 
-  
+  // Store the number of players (max 2)
+  const [numberOfPlayers, setNumberOfPlayers] = useState(0);
+
+  // Store whether the keyboard should be enabled
+  const [enableKeyboard, setEnableKeyboard] = useState(false);
+
+  // Store the header message
+  const [startGameMessage, setStartGameMessage] = useState("Waiting for opponent...");
+
+
 
   // This function starts a new game after a game has been played
   // It is passed to the GameOver component and called in the EnterPressed function
   const startNewGame = () => {
-
 
     // Create a blank board
     const blankBoard =   
@@ -193,24 +201,123 @@ function App({socket, username, room}) {
       // Set the second board on the screen to the opponent's board
       setBoard2(data.board);
 
+      // Set the opponent's secret word
       setOpponentsWord(data.correctWord);
-
 
       // Print a message to the console
       console.log("DATA RECIEVED: " + data.message);
-    })
+    });
+
+
+    // Listen for the room_full event
+    socket.on("room_full", (message) => {
+
+      // Show an alert
+      alert(message);
+
+      // Reload the page
+      window.location.reload();
+    });
+
+
+    // Listen for the number_of_players event
+    socket.on("number_of_players", (numPlayers) => {
+
+      // Set the number of players (max 2)
+      setNumberOfPlayers(numPlayers);
+    });
+
   }, [socket])
+
+  //----------------------------//
+
+
+
+  // This function is called whenever the number of players changes
+  useEffect(() => {
+
+    // If two players have joined, automatically start the game
+    if (numberOfPlayers === 2) {
+      
+      // Set the countdown to 6 seconds
+      let timeleft = 6;
+
+      // Create a timer
+      let downloadTimer = setInterval(function() {
+
+        // Subtract 1 second
+        timeleft--;
+
+        // Set the header to the amount of seconds remaining
+        setStartGameMessage("Game starting in " + timeleft + "...");
+        
+        // If the timer hits 0, 
+        if(timeleft <= 0) {
+
+          // Clear the timer
+          clearInterval(downloadTimer);
+
+          // Enable the Keyboard (This gets passed to keyboard component)
+          setEnableKeyboard(true);
+
+          //----- START THE GAME -----//
+
+          // Start the game, and set the game duration to 61 seconds
+          gameTimer(61);
+        }
+
+      },1000);
+    }
+  }, [numberOfPlayers])
   
 
 
+  // This function starts the timer for the game
+  // It takes the game duration (in seconds) as an argument
+  function gameTimer(timeInSeconds) {
+
+    // Store the game duration (in seconds)
+    let timeleft = timeInSeconds;
+
+    // Create a timer
+    let downloadTimer = setInterval(function() {
+
+      // Subtract 1 second
+      timeleft--;
+
+      // Print the time remaining in the header
+      setStartGameMessage("Time Remaining: " + timeleft);
+      
+      // If the time hits 0, the game is over
+      if(timeleft <= 0) {
+
+        // Clear the timer
+        clearInterval(downloadTimer);
+
+        // Disable the keyboard (this gets passed to keyboard component)
+        setEnableKeyboard(false);
+
+        // Display a Game Over message in the header
+        setStartGameMessage("Game Over");
+      }
+    },1000);
+  }
+
+
+  
 
   // Return the 2 Player Wordle Component
   return (
 
     <div className="App">
+      {/*<nav><h1>Wordle</h1></nav>*/}
+
       <nav>
-        <h1>Wordle</h1>
+        <h1> 
+          { startGameMessage }
+        </h1>
       </nav>
+
       <AppContext.Provider value={{
         currAttempt,
         setCurrAttempt,
@@ -232,8 +339,8 @@ function App({socket, username, room}) {
             <Board currentBoard={board}/>
             <BoardOpponent currentBoard={board2} secretWord={opponentsWord}/>
           </div>
-          
-          {gameOver.gameOver ? <GameOver startNewGame={startNewGame}/> : <Keyboard onSelectLetter={onSelectLetter}/>}
+
+          {gameOver.gameOver ? <GameOver startNewGame={startNewGame}/> : <Keyboard onSelectLetter={onSelectLetter} isEnabled={enableKeyboard}/>}
         </div>
 
       </AppContext.Provider>
