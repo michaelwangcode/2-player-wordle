@@ -7,7 +7,7 @@ import { AppContext } from "../App"
 function GameOver({startNewGame}) {
 
   // Store the game functions in a global state hook
-  const { gameOver, correctWord, currAttempt } = useContext(AppContext)
+  const { gameOver, correctWord } = useContext(AppContext)
   
 
   // Actions performed when the GameOver component first loads
@@ -60,10 +60,7 @@ function GameOver({startNewGame}) {
     <div className='gameOver'>
       <h3>{gameOver.guessedWord ? "You Correctly Guessed" : "Out of Guesses!"}</h3>
       <h1>Correct Word: {correctWord.toUpperCase()}</h1>
-      {gameOver.guessedWord && (<h3>You guessed in {currAttempt.attempt} attempts</h3>)}
-      <br></br>
-      <h4>Press 'Enter' to start a new game</h4>
-      <h4>Press 'ESC' to quit</h4>
+      <h3>Press 'Enter' for the next word</h3>
     </div>
   )
 }

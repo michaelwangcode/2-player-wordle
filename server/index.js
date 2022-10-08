@@ -77,7 +77,6 @@ io.on("connection", (socket) => {
   });
 
 
-
   //----- USER TYPES A WORD, WORD IS SENT TO OTHER USER -----//
   
   // When an event named "send_message" is emitted, perform the following actions
@@ -87,6 +86,15 @@ io.on("connection", (socket) => {
     socket.to(data.room).emit("recieve_message", data);
   });
 
+
+  //----- YOUR SCORE IS SENT TO THE OPPONENT -----//
+
+  // When the "send_score_to_opponent" event is emitted, perform the following actions
+  socket.on("send_score_to_opponent", (data) => {
+
+    // Emit the score to the specific room in the data
+    socket.to(data.room).emit("receive_opponents_score", data.score);
+  });
 
 
   //----- USER LEAVES THE ROOM -----//

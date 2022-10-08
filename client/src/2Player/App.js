@@ -25,14 +25,16 @@ function App({socket, username, room}) {
   const [almostLetters, setAlmostLetters] = useState([]);
   const [correctLetters, setCorrectLetters] = useState([]);
 
+  // Store the player and opponent's secret words
+  const [correctWord, setCorrectWord] = useState("");
+  const [opponentsWord, setOpponentsWord] = useState("");
+
+  // Store the player and opponent's score
+  const [yourScore, setYourScore] = useState(0);
+  const [opponentsScore, setOpponentsScore] = useState(0);
+
   // Store whether the game is over
   const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
-
-  // Store the user's secret word
-  const [correctWord, setCorrectWord] = useState("");
-
-  // Store the opponent's secret word
-  const [opponentsWord, setOpponentsWord] = useState("");
 
   // Store the number of players (max 2)
   const [numberOfPlayers, setNumberOfPlayers] = useState(0);
@@ -45,7 +47,7 @@ function App({socket, username, room}) {
 
 
 
-  // This function starts a new game after a game has been played
+  // This function starts a new game
   // It is passed to the GameOver component and called in the EnterPressed function
   const startNewGame = () => {
 
@@ -156,6 +158,30 @@ function App({socket, username, room}) {
   
     // If the user guesses the correct word, the game is over
     if (currentWord.toLowerCase() === correctWord) {
+
+      // Scoring tiers
+      // From 1 attempt to 6 attempts:
+      // 100 80 60 40 20 10
+
+      // The amount of points you get after each game
+      let points = 0;
+
+      // Calculate the amound of points the user gets
+      if (currAttempt.attempt === 1) { points = 100; }
+      else if (currAttempt.attempt === 2) { points = 80; }
+      else if (currAttempt.attempt === 3) { points = 60; }
+      else if (currAttempt.attempt === 4) { points = 40; }
+      else if (currAttempt.attempt === 5) { points = 20; }
+      else if (currAttempt.attempt === 6) { points = 10; }
+
+      // Set the user's new score
+      let yourNewScore = yourScore + points;
+      setYourScore(yourNewScore);
+
+      // Send your score to your opponent
+      sendScoreToOpponent(yourNewScore);
+
+      // Set the game to be over
       setGameOver({ gameOver: true, guessedWord: true })
       return;
     }
@@ -167,7 +193,7 @@ function App({socket, username, room}) {
   }
 
 
-  
+
   //----- SOCKET FUNCTIONS -----//
   
   // Send a message (object of data) through the socket.io server
@@ -190,6 +216,20 @@ function App({socket, username, room}) {
     console.log("DATA SENT: " + messageData.message)
   }
   
+
+  // This function sends your current score to your opponent
+  const sendScoreToOpponent = async (yourScore) => {
+
+    // Store your score and the room ID
+    const data = {
+      score: yourScore,
+      room: room
+    }
+
+    // Emit the score and room ID using the send_score_to_opponent function
+    await socket.emit("send_score_to_opponent", data);
+  }
+
 
   // The useEffect hook calls the following function whenever there is a change in the socket server
   useEffect(() => {
@@ -225,6 +265,14 @@ function App({socket, username, room}) {
 
       // Set the number of players (max 2)
       setNumberOfPlayers(numPlayers);
+    });
+
+
+    // Recieve opponent's score
+    socket.on("receive_opponents_score", (score) => {
+
+      // Set the opponent's score
+      setOpponentsScore(score);
     });
 
   }, [socket])
@@ -263,6 +311,8 @@ function App({socket, username, room}) {
           //----- START THE GAME -----//
 
           // Start the game, and set the game duration to 61 seconds
+          startNewGame();
+
           gameTimer(61);
         }
 
@@ -297,14 +347,21 @@ function App({socket, username, room}) {
         // Disable the keyboard (this gets passed to keyboard component)
         setEnableKeyboard(false);
 
+        // Set the game to be over
+        setGameOver({ gameOver: true, guessedWord: false })
+
         // Display a Game Over message in the header
         setStartGameMessage("Game Over");
+
+        // Display an alert for the winner!
+        // Add a better win message later
+        alert("Game over!")
       }
     },1000);
   }
 
 
-  
+
 
   // Return the 2 Player Wordle Component
   return (
@@ -336,13 +393,24 @@ function App({socket, username, room}) {
 
         <div className='game'>
           <div className='two-boards'>
+
+            <div>
+            <span style={{"font-size": "25px", "font-weight":"bold"}}>Your Score: {yourScore}</span>
+
             <Board currentBoard={board}/>
+            </div>
+
+            <div>
+            <span style={{"font-size": "25px", "font-weight":"bold"}}>Opponent's Score: {opponentsScore}</span>
+
             <BoardOpponent currentBoard={board2} secretWord={opponentsWord}/>
+            </div>
+
           </div>
 
           {gameOver.gameOver ? <GameOver startNewGame={startNewGame}/> : <Keyboard onSelectLetter={onSelectLetter} isEnabled={enableKeyboard}/>}
         </div>
-
+        
       </AppContext.Provider>
     </div>
 
