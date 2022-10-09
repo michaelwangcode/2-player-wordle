@@ -350,12 +350,14 @@ function App({socket, username, room}) {
         // Set the game to be over
         setGameOver({ gameOver: true, guessedWord: false })
 
-        // Display a Game Over message in the header
-        setStartGameMessage("Game Over");
-
-        // Display an alert for the winner!
-        // Add a better win message later
-        alert("Game over!")
+        // Display a Game Over message at the top to show who won
+        if (yourScore > opponentsScore) {
+          setStartGameMessage("Game Over: You Win!");
+        } else if (yourScore < opponentsScore) {
+          setStartGameMessage("Game Over: Opponent Wins!");
+        } else if (yourScore === opponentsScore) {
+          setStartGameMessage("Game Over: Tie!");
+        }
       }
     },1000);
   }

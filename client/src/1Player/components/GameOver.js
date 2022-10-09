@@ -59,7 +59,7 @@ function GameOver({startNewGame}) {
   return (
 
     <div className='gameOver'>
-      <h3>{gameOver.guessedWord ? "You Correctly Guessed" : "Out of Guesses!"}</h3>
+      <h3>{gameOver.guessedWord ? "You Guessed Correctly!" : "Out of Guesses!"}</h3>
       <h1>Correct Word: {correctWord.toUpperCase()}</h1>
       {gameOver.guessedWord && (<h3>You guessed in {currAttempt.attempt} attempts</h3>)}
       <br></br>

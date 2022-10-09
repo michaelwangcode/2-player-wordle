@@ -58,7 +58,6 @@ function GameOver({startNewGame}) {
   // Return the GameOver component
   return (
     <div className='gameOver'>
-      <h3>{gameOver.guessedWord ? "You Correctly Guessed" : "Out of Guesses!"}</h3>
       <h1>Correct Word: {correctWord.toUpperCase()}</h1>
       <h3>Press 'Enter' for the next word</h3>
     </div>
