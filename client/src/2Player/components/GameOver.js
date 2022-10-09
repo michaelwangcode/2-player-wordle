@@ -4,10 +4,10 @@ import { AppContext } from "../App"
 
 
 // This component is displayed when the game is over
-function GameOver({startNewGame}) {
+function GameOver({startNewGame, matchOver}) {
 
   // Store the game functions in a global state hook
-  const { gameOver, correctWord } = useContext(AppContext)
+  const { correctWord } = useContext(AppContext)
   
 
   // Actions performed when the GameOver component first loads
@@ -22,11 +22,6 @@ function GameOver({startNewGame}) {
         enterPressed();
       }
 
-      // If the ESC key is pressed call the escapePressed function
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        escapePressed();
-      }
     };
 
     // Add an event listener for key presses
@@ -38,28 +33,35 @@ function GameOver({startNewGame}) {
   }, []);
   
 
+  
   // Actions performed when the Enter key is pressed
   const enterPressed = () => {
 
-    // Call the startNewGame function in App.js
-    startNewGame();
+    // IF the match is not over
+    if (!matchOver) {
+
+      // Call the startNewGame function in App.js
+      startNewGame();
+    }
   }
 
 
-  // Actions performed when the ESC key is pressed
-  const escapePressed = () => {
-    
-    console.log("ESCAPE");
-    alert("Quit game");
-  }
-  
-  
   
   // Return the GameOver component
   return (
     <div className='gameOver'>
-      <h1>Correct Word: {correctWord.toUpperCase()}</h1>
-      <h3>Press 'Enter' for the next word</h3>
+
+    { !matchOver ?
+      <span>
+        <h1>Correct Word: {correctWord.toUpperCase()}</h1>
+        <h3>Press 'Enter' for the next word</h3>
+      </span>
+      :
+      <span>
+        <h1>Correct Word: {correctWord.toUpperCase()}</h1>
+      </span>
+    } 
+
     </div>
   )
 }

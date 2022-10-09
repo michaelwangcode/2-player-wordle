@@ -34,7 +34,7 @@ function App({socket, username, room}) {
   const [opponentsScore, setOpponentsScore] = useState(0);
 
   // Store whether the game is over
-  const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false })
+  const [gameOver, setGameOver] = useState({ gameOver: false, guessedWord: false });
 
   // Store the number of players (max 2)
   const [numberOfPlayers, setNumberOfPlayers] = useState(0);
@@ -44,6 +44,9 @@ function App({socket, username, room}) {
 
   // Store the header message
   const [startGameMessage, setStartGameMessage] = useState("Waiting for opponent...");
+
+  // Store whether the entire match is over
+  const [matchOver, setMatchOver] = useState(false);
 
 
 
@@ -350,17 +353,30 @@ function App({socket, username, room}) {
         // Set the game to be over
         setGameOver({ gameOver: true, guessedWord: false })
 
-        // Display a Game Over message at the top to show who won
-        if (yourScore > opponentsScore) {
-          setStartGameMessage("Game Over: You Win!");
-        } else if (yourScore < opponentsScore) {
-          setStartGameMessage("Game Over: Opponent Wins!");
-        } else if (yourScore === opponentsScore) {
-          setStartGameMessage("Game Over: Tie!");
-        }
+        // Set the match to be over
+        setMatchOver(true);
       }
     },1000);
   }
+
+
+  // This function is called when the match is over
+  useEffect(() => {
+
+    // If the match is over, 
+    if (matchOver) {
+
+      // Display a Game Over message at the top to show who won
+      if (yourScore > opponentsScore) {
+        setStartGameMessage("Game Over: You Win!");
+      } else if (yourScore < opponentsScore) {
+        setStartGameMessage("Game Over: Opponent Wins!");
+      } else if (yourScore === opponentsScore) {
+        setStartGameMessage("Game Over: Tie!");
+      }
+    }
+
+ }, [matchOver])
 
 
 
@@ -410,7 +426,8 @@ function App({socket, username, room}) {
 
           </div>
 
-          {gameOver.gameOver ? <GameOver startNewGame={startNewGame}/> : <Keyboard onSelectLetter={onSelectLetter} isEnabled={enableKeyboard}/>}
+          {/* If the game is over, display the GameOver component. Otherwise, display the keyboard */}
+          {gameOver.gameOver ? <GameOver startNewGame={startNewGame} matchOver={matchOver}/> : <Keyboard onSelectLetter={onSelectLetter} isEnabled={enableKeyboard}/>}
         </div>
         
       </AppContext.Provider>
