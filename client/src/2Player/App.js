@@ -413,13 +413,13 @@ function App({socket, username, room}) {
           <div className='two-boards'>
 
             <div>
-            <span style={{"font-size": "25px", "font-weight":"bold"}}>Your Score: {yourScore}</span>
+            <span className="score">Your Score: {yourScore}</span>
 
             <Board currentBoard={board}/>
             </div>
 
             <div>
-            <span style={{"font-size": "25px", "font-weight":"bold"}}>Opponent's Score: {opponentsScore}</span>
+            <span className="score">Opponent's Score: {opponentsScore}</span>
 
             <BoardOpponent currentBoard={board2} secretWord={opponentsWord}/>
             </div>
