@@ -4,7 +4,7 @@ import { AppContext } from "../App"
 
 
 // This component is displayed when the game is over
-function GameOver({startNewGame}) {
+function GameOver({startNewGame, winStreak}) {
 
   // Store the game functions in a global state hook
   const { gameOver, correctWord, currAttempt } = useContext(AppContext)
@@ -59,9 +59,10 @@ function GameOver({startNewGame}) {
   return (
 
     <div className='gameOver'>
-      <h3>{gameOver.guessedWord ? "You Guessed Correctly!" : "Out of Guesses!"}</h3>
       <h1>Correct Word: {correctWord.toUpperCase()}</h1>
-      {gameOver.guessedWord && (<h3>You guessed in {currAttempt.attempt} attempts</h3>)}
+      <h3>{gameOver.guessedWord ? "You Guessed Correctly!" : "Out of Guesses!"}</h3>
+
+      {gameOver.guessedWord && (<h3>Your Win Streak: {winStreak}</h3>)}
       <h4>Press 'Enter' to start a new game</h4>
     </div>
   )

@@ -28,6 +28,9 @@ function App() {
   // Store the correct word
   const [correctWord, setCorrectWord] = useState("")
 
+  // Store the win streak
+  const [winStreak, setWinStreak] = useState(0);
+
 
 
   // This function starts a new game after a game has been played
@@ -94,26 +97,46 @@ function App() {
 
   // This function performs actions when the Enter key is pressed
   const onEnter = () => {
+
+    // If there are less than 5 letters typed, return without doing anything
     if (currAttempt.letterPos !== 5) return;
 
+    // Store the current word
     let currentWord = "";
     for (let i = 0; i < 5; i++) {
       currentWord += board[currAttempt.attempt][i];
     }
+
+    // If the word exists in the word bank, add it as an attempt
     if (wordSet.has(currentWord.toLowerCase())) {
       setCurrAttempt({ attempt: currAttempt.attempt += 1, letterPos: currAttempt.letterPos = 0 })
+    
+    // Otherwise tell the user that the word doesn't exist
     } else {
       alert("Word not found!")
     }
 
+    // If the user guesses the correct word, the game is over
     if (currentWord.toLowerCase() === correctWord) {
+
+      // Set the game to be over
       setGameOver({ gameOver: true, guessedWord: true })
     
+      // Increase the winning streak by 1
+      let newWinStreak = winStreak + 1;
+      setWinStreak(newWinStreak);
+
       return;
     }
 
+    // If the user makes 6 guesses without guessing correctly, the game is over
     if (currAttempt.attempt === 6) {
+
+      // Set the game to be over
       setGameOver({ gameOver: true, guessedWord: false })
+
+      // Reset the win streak to 0
+      setWinStreak(0);
     }
   }
 
@@ -155,7 +178,7 @@ function App() {
 
         <div className='game'>
           <Board />
-          {gameOver.gameOver ? <GameOver startNewGame={startNewGame}/> : <Keyboard />}
+          {gameOver.gameOver ? <GameOver startNewGame={startNewGame} winStreak={winStreak}/> : <Keyboard />}
         </div>
 
       </AppContext.Provider>

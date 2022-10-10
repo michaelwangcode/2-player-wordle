@@ -191,6 +191,8 @@ function App({socket, username, room}) {
   
     // If the user makes 6 guesses without guessing correctly, the game is over
     if (currAttempt.attempt === 6) {
+
+      // Set the game to be over
       setGameOver({ gameOver: true, guessedWord: false })
     }
   }
