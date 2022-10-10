@@ -385,10 +385,9 @@ function App({socket, username, room}) {
   return (
 
     <div className="App">
-      {/*<nav><h1>Wordle</h1></nav>*/}
 
       <nav>
-        <h1> 
+        <h1 className="wordle-logo"> 
           { startGameMessage }
         </h1>
       </nav>

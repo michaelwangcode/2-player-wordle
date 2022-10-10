@@ -118,12 +118,21 @@ function App() {
   }
 
 
+  // Reload page when the top logo is clicked
+  function back() {
+
+    // Reload the page (acts as a back button)
+    window.location.reload();
+  }
+
+
+
 
   // Return the 1 Player Wordle Component
   return (
     <div className="App">
       <nav>
-        <h1>Wordle</h1>
+        <h1 className="wordle-logo" onClick={back}>Wordle</h1>
       </nav>
       <AppContext.Provider value={{
         board,

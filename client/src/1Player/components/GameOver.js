@@ -50,7 +50,7 @@ function GameOver({startNewGame}) {
   const escapePressed = () => {
     
     console.log("ESCAPE");
-    alert("Quit game");
+    //alert("Quit game");
   }
 
   
@@ -62,9 +62,7 @@ function GameOver({startNewGame}) {
       <h3>{gameOver.guessedWord ? "You Guessed Correctly!" : "Out of Guesses!"}</h3>
       <h1>Correct Word: {correctWord.toUpperCase()}</h1>
       {gameOver.guessedWord && (<h3>You guessed in {currAttempt.attempt} attempts</h3>)}
-      <br></br>
       <h4>Press 'Enter' to start a new game</h4>
-      <h4>Press 'ESC' to quit</h4>
     </div>
   )
 }
