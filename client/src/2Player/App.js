@@ -1,4 +1,4 @@
-import './2PlayerApp.css';
+import '../App.css';
 import Board from './components/Board';
 import BoardOpponent from './components/BoardOpponent';
 import Keyboard from './components/Keyboard';
