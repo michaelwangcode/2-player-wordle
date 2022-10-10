@@ -4,15 +4,15 @@ const app = express();                    // Set app variable to instance of exp
 const http = require("http");             // Import http library to build server with socket.io
 const cors = require('cors');             // Import cors because socket.io has cors issues
 const { Server } = require("socket.io");  // Import from the socket.io library
-const db = require("./db/connection");
+//const db = require("./db/connection");
 
-const statsRoute = require("./routes/stats");
 const { emit } = require("process");
 
 // Use cors middleware to resolve issues
 app.use(cors());
 
-app.use('/api/stats', statsRoute(db));
+//app.use(express.json());
+
 
 // Create a server and pass in the app variable
 const server = http.createServer(app);
@@ -27,15 +27,25 @@ const io = new Server(server, {
   },
 });
 
-
-
 // Listen for a connection event
 io.on("connection", (socket) => {
 
   // Print the socket id when the server is connected
   console.log(`User Connected: ${socket.id}`);
 
-
+// ROUTES 
+// POST user stats
+// app.post("/stats", async(req,res) => {
+//   try {
+//     const { stats } = req.body;
+//     const newUser = await db.query("INSERT INTO users (id, username, email, join_date, total_wins, total_losses, total_games_played, total_words_missed, guesses_1, guesses_2, guesses_3, guesses_4, guesses_5, guesses_6 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)",
+//     [id, username, email, join_date, total_wins, total_losses, total_games_played, total_words_missed, guesses_1, guesses_2, guesses_3, guesses_4, guesses_5, guesses_6])
+  
+//     res.json(newUser.rows[0]);
+//   } catch (error) {
+//     console.error(error.message)
+//   }
+//   });
 
   //----- USER JOINS A ROOM -----//
 
@@ -107,6 +117,8 @@ io.on("connection", (socket) => {
   });
 
 });
+
+
 
 
 
