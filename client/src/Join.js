@@ -33,8 +33,23 @@ function Join() {
 
       // Set showGame to true, which will display the game component
       setShowGame(true);
+
+    // Otherwise if the 
+    } else {
+
+      // Display an alert
+      alert("Enter a name and room number")
     }
   };
+
+
+  // Reload page when the back button is clicked
+  function back() {
+
+    // Reload the page (acts as a back button)
+    window.location.reload();
+  }
+
 
 
   // Return the Join App component
@@ -71,6 +86,9 @@ function Join() {
 
         {/* Button to join a room */}
         <button onClick={joinRoom}>Join A Room</button>
+        <br/>
+        <button onClick={back} style={{background: "gray"}}>Go Back</button>
+
       </div>
 
       )

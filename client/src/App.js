@@ -90,11 +90,37 @@ function App() {
 
       {/* If showStats is true, display an 8 Person Tournament */}
       {showHowToPlay && (
-        <div>
+        <div className='no-highlight'>
           <h1>How To Play</h1>
+          <p>Wordle is a word guessing game.</p>
+          <p>You have 6 chances to guess a secret 5-letter word.</p>
+
+          <img src={require('./images/react.png')} alt="react"/>
+
+          <p>After each guess, letters will turn green, yellow or gray.</p>
+          <p>
+            Green: The letter is in the word, and in the correct position. <br/>
+            Yellow: The letter is in the word, but not in the correct position. <br/>
+            Gray: The letter is not in the word.
+          </p>
+          <p>Each guess must be a valid 5-letter word.</p>
+          <br/>
+
+          <h2>Two Player Mode</h2>
+          <p>To start a 2-player game, send a friend a room code (ex: 123). <br/>
+            Once you both join the room, the game will start.
+          </p>
+          <p>
+            Guess as many words as you can before the time runs out. <br/>
+            The earlier you guess the word, the more points you will get. 
+          </p>
+          <br/>
 
           {/* Back to Home Button */}
-          <button onClick={backToHome}>Back</button>
+          <button onClick={backToHome} style={{width: "100px"}}>
+            <h3>Go Back</h3>
+          </button>
+          <br/><br/><br/><br/>
         </div>
       )}
 
