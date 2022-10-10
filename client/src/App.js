@@ -12,17 +12,14 @@ function App() {
   // 1. Home
   // 2. Single Player
   // 3. Two Player
-  // 4. 4 Person Tournament
-  // 5. 8 Person Tournament
-  // 6. Stats
+  // 4. How To Play
+
 
   // These hooks are used to hide or display a component
   const [showHome, setShowHome] = useState(true);
   const [show1PlayerGame, setShow1PlayerGame] = useState(false);
   const [show2PlayerGame, setShow2PlayerGame] = useState(false);
-  const [show4PlayerTournament, setShow4PlayerTournament] = useState(false);
-  const [show8PlayerTournament, setShow8PlayerTournament] = useState(false);
-  const [showStats, setShowStats] = useState(false);
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
 
 
   // This function displays a 1 Player Game
@@ -39,34 +36,18 @@ function App() {
     setShow2PlayerGame(true);
   };
 
-  // This function displays a 4 Player Tournament
-  const select4PlayerTournament = () => {
-    console.log("4 Player tournament selected");
-    setShowHome(false);
-    setShow4PlayerTournament(true);
-  };
-
-  // This function displays an 8 Player Tournament
-  const select8PlayerTournament = () => {
-    console.log("8 Player tournament selected");
-    setShowHome(false);
-    setShow8PlayerTournament(true);
-  };
-
-  // This function displays the user's stats
-  const selectStats = () => {
+  // This function displays the How To Play page
+  const selectHowToPlay = () => {
     console.log("My Stats");
     setShowHome(false);
-    setShowStats(true);
+    setShowHowToPlay(true);
   };
 
   const backToHome = () => {
     console.log("Back to home");
     setShow1PlayerGame(false);
     setShow2PlayerGame(false);
-    setShow4PlayerTournament(false);
-    setShow8PlayerTournament(false);
-    setShowStats(false);
+    setShowHowToPlay(false);
     setShowHome(true);
   };
 
@@ -86,11 +67,7 @@ function App() {
           <br/><br/>
           <button onClick={select2PlayerGame}><h1>2 Player Game</h1></button>
           <br/><br/>
-          <button onClick={select4PlayerTournament}><h1>4 Player Tournament</h1></button>
-          <br/><br/>
-          <button onClick={select8PlayerTournament}><h1>8 Player Tournament</h1></button>
-          <br/><br/>
-          <button onClick={selectStats}><h1>My Stats</h1></button>
+          <button onClick={selectHowToPlay}><h1>How To Play</h1></button>
           <br/><br/>
         </div>
       )}
@@ -111,33 +88,13 @@ function App() {
         </div>
       )}
 
-      {/* If show4PersonTournament is true, display a 4 Person Tournament */}
-      {show4PlayerTournament && (
-        <div>
-          {/* Back to Home Button */}
-          <button onClick={backToHome}>Back</button>
-
-          <h1>Create a 4 Person Tournament</h1>
-        </div>
-      )}
-
-      {/* If show8PersonTournament is true, display an 8 Person Tournament */}
-      {show8PlayerTournament && (
-        <div>
-          {/* Back to Home Button */}
-          <button onClick={backToHome}>Back</button>
-
-          <h1>Create an 8 Person Tournament</h1>
-        </div>
-      )}
-
       {/* If showStats is true, display an 8 Person Tournament */}
-      {showStats && (
+      {showHowToPlay && (
         <div>
+          <h1>How To Play</h1>
+
           {/* Back to Home Button */}
           <button onClick={backToHome}>Back</button>
-
-          <h1>My Stats</h1>
         </div>
       )}
 
