@@ -61,14 +61,21 @@ function App() {
       {/* If showHome is true, display the Home Page with Buttons */}
       {showHome && (
         <div>
-          <h1>Wordle</h1>
-          <br/><br/>
+          <h1 className='wave'>
+            <span style={{"--i":1}}>W</span>
+            <span style={{"--i":2}}>O</span>
+            <span style={{"--i":3}}>R</span>
+            <span style={{"--i":4}}>D</span>
+            <span style={{"--i":5}}>L</span>
+            <span style={{"--i":6}}>E</span>
+          </h1>
+          <br /><br />
           <button onClick={select1PlayerGame}><h1>1 Player Game</h1></button>
-          <br/><br/>
+          <br /><br />
           <button onClick={select2PlayerGame}><h1>2 Player Game</h1></button>
-          <br/><br/>
+          <br /><br />
           <button onClick={selectHowToPlay}><h1>How To Play</h1></button>
-          <br/><br/>
+          <br /><br />
         </div>
       )}
 
