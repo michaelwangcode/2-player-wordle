@@ -70,13 +70,24 @@ io.on("connection", (socket) => {
   });
 
 
+
+  //----- SEND OPPONENT YOUR USERNAME -----//
+
+  // When an event named "send_username" is emitted, perform the following actions
+  socket.on("send_username", (data) => {
+
+    // Emit your username to the specific room in the data
+    socket.to(data.room).emit("receive_username", data);
+  });
+
+
   //----- USER TYPES A WORD, WORD IS SENT TO OTHER USER -----//
   
   // When an event named "send_message" is emitted, perform the following actions
   socket.on("send_message", (data) => {
 
     // Emit the data to the specific room in the data
-    socket.to(data.room).emit("recieve_message", data);
+    socket.to(data.room).emit("receive_message", data);
   });
 
 

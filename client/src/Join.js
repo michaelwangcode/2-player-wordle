@@ -25,20 +25,26 @@ function Join() {
   // It establishes a connection between the user and the socket.io room they want to enter
   const joinRoom = () => {
 
-    // If the username and room are not blank, we can join a room
-    if (username !== "" && room !== "") {
+    // If the name or room are blank
+    if (username === "" || room === "") {
+
+      // Display an alert
+      alert("Enter a name and room number")
+
+    // If the username or room are over 12 characters
+    } else if (username.length > 12 || room.length > 12) {
+
+      // Display an alert
+      alert("Name and room number must be 12 characters or less")
+
+    // Otherwise, we can join a room
+    } else {
 
       // Emit an event named "join_room" to the server and pass it data (room)
       socket.emit("join_room", room);
 
       // Set showGame to true, which will display the game component
       setShowGame(true);
-
-    // Otherwise if the 
-    } else {
-
-      // Display an alert
-      alert("Enter a name and room number")
     }
   };
 

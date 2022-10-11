@@ -25,6 +25,9 @@ function App({socket, username, room}) {
   const [almostLetters, setAlmostLetters] = useState([]);
   const [correctLetters, setCorrectLetters] = useState([]);
 
+  // Store the opponent's username
+  const [opponentsName, setOpponentsName] = useState("Opponent");
+
   // Store the player and opponent's secret words
   const [correctWord, setCorrectWord] = useState("");
   const [opponentsWord, setOpponentsWord] = useState("");
@@ -199,8 +202,28 @@ function App({socket, username, room}) {
 
 
 
-  //----- SOCKET FUNCTIONS -----//
+  //---------- SOCKET FUNCTIONS ----------//
   
+  //----- SENDING DATA -----//
+
+  // This function sends your username to your opponent
+  // It gets called when a room has 2 users
+  const sendUsername = async (username) => {
+
+    // Send data consisting of a username and a room
+    const data = {
+      username: username,
+      room: room
+    }
+
+    // Emit the data using the send_username function
+    await socket.emit("send_username", data)
+
+    // Print a message to the console
+    console.log("USERNAME SENT: " + data.username)
+  }
+
+
   // Send a message (object of data) through the socket.io server
   // It takes the currentWord as an argument
   const sendMessage = async (currentWord) => {
@@ -214,7 +237,7 @@ function App({socket, username, room}) {
       correctWord: correctWord
     }
 
-    // Emit the message using the name send_message
+    // Emit the message using the send_message function
     await socket.emit("send_message", messageData);
 
     // Print a message to the console
@@ -236,13 +259,26 @@ function App({socket, username, room}) {
   }
 
 
+  //----- RECEIVING DATA -----//
+
   // The useEffect hook calls the following function whenever there is a change in the socket server
   useEffect(() => {
 
-    // Listen for the recieve_message event and perform the following actions
-    socket.on("recieve_message", (data) => {
+    // Listen for the receive_username event and perform the following actions
+    socket.on("receive_username", (data) => {
 
-      //------- SET THE SECOND BOARD TO THE RECIEVED DATA --------//
+      // Set the opponent's name
+      setOpponentsName(data.username);
+
+      // Print a message to the console
+      console.log("USERNAME RECEIVED: " + data.username);
+    });
+
+
+    // Listen for the receive_message event and perform the following actions
+    socket.on("receive_message", (data) => {
+
+      //------- SET THE SECOND BOARD TO THE RECEIVED DATA --------//
       // Set the second board on the screen to the opponent's board
       setBoard2(data.board);
 
@@ -250,7 +286,7 @@ function App({socket, username, room}) {
       setOpponentsWord(data.correctWord);
 
       // Print a message to the console
-      console.log("DATA RECIEVED: " + data.message);
+      console.log("DATA RECEIVED: " + data.message);
     });
 
 
@@ -273,7 +309,7 @@ function App({socket, username, room}) {
     });
 
 
-    // Recieve opponent's score
+    // Receive opponent's score
     socket.on("receive_opponents_score", (score) => {
 
       // Set the opponent's score
@@ -282,7 +318,7 @@ function App({socket, username, room}) {
 
   }, [socket])
 
-  //----------------------------//
+  //--------------------------------------//
 
 
 
@@ -292,6 +328,9 @@ function App({socket, username, room}) {
     // If two players have joined, automatically start the game
     if (numberOfPlayers === 2) {
       
+      // Send the opponent your username
+      sendUsername(username);
+
       // Set the countdown to 6 seconds
       let timeleft = 6;
 
@@ -372,7 +411,7 @@ function App({socket, username, room}) {
       if (yourScore > opponentsScore) {
         setStartGameMessage("Game Over: You Win!");
       } else if (yourScore < opponentsScore) {
-        setStartGameMessage("Game Over: Opponent Wins!");
+        setStartGameMessage(`Game Over: ${opponentsName} Wins!`);
       } else if (yourScore === opponentsScore) {
         setStartGameMessage("Game Over: Tie!");
       }
@@ -414,13 +453,13 @@ function App({socket, username, room}) {
           <div className='two-boards'>
 
             <div>
-            <span className="score">Your Score: {yourScore}</span>
+            <span className="score">{username}'s Score: {yourScore}</span>
 
             <Board currentBoard={board}/>
             </div>
 
             <div>
-            <span className="score">Opponent's Score: {opponentsScore}</span>
+            <span className="score">{opponentsName}'s Score: {opponentsScore}</span>
 
             <BoardOpponent currentBoard={board2} secretWord={opponentsWord}/>
             </div>

@@ -45,8 +45,8 @@ function Chat({socket, username, room}) {
   // The useEffect hook calls the following function whenever there is a change in the socket server
   useEffect(() => {
 
-    // Listen for the recieve_message event and perform the following actions
-    socket.on("recieve_message", (data) => {
+    // Listen for the receive_message event and perform the following actions
+    socket.on("receive_message", (data) => {
 
       // Call the setMessageList function to append the new message to the message list
       setMessageList((list) => [...list, data])
