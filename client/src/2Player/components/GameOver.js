@@ -37,9 +37,6 @@ function GameOver({startNewGame, matchOver}) {
   // Actions performed when the Enter key is pressed
   const enterPressed = () => {
 
-    console.log("MATCHOVER VALUE: " + matchOver)
-
-
     // If the match is not over
     if (!matchOver) {
 
