@@ -1,18 +1,13 @@
-require("dotenv").config();
 const express = require('express');       // Import express
 const app = express();                    // Set app variable to instance of express funciton
 const http = require("http");             // Import http library to build server with socket.io
 const cors = require('cors');             // Import cors because socket.io has cors issues
 const { Server } = require("socket.io");  // Import from the socket.io library
-const db = require("./db/connection");
-
-const statsRoute = require("./routes/stats");
 const { emit } = require("process");
+
 
 // Use cors middleware to resolve issues
 app.use(cors());
-
-app.use('/api/stats', statsRoute(db));
 
 // Create a server and pass in the app variable
 const server = http.createServer(app);
@@ -53,10 +48,9 @@ io.on("connection", (socket) => {
 
       // Use emit to tell the App that there is only 1 player
       io.sockets.in(roomId).emit('number_of_players', 1);
-    }
-
-    // If the room has 1 player in it,
-    else if (io.sockets.adapter.rooms.get(roomId).size === 1 ) {
+    
+    // Otherwise if the room has 1 player in it,
+    } else if (io.sockets.adapter.rooms.get(roomId).size === 1) {
 
       // Join the room in the joinRoom function from App.js
       socket.join(roomId);
@@ -66,13 +60,12 @@ io.on("connection", (socket) => {
       
       // Use emit to tell the App that there are 2 players
       io.sockets.in(roomId).emit('number_of_players', 2);
-    }
 
     // Otherwise if there are more than two players, the room is full
-    else if (io.sockets.adapter.rooms.get(roomId).size >= 2) {
+    } else if (io.sockets.adapter.rooms.get(roomId).size >= 2) {
 
       // Emit a "room is full message" to the user that just entered
-      io.to(socket.id).emit("room_full", "Room is full")
+      io.to(socket.id).emit("room_full", "Room is full");
     }
   });
 
