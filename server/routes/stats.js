@@ -3,7 +3,7 @@ const router = express.Router();
 const { getStats, getStat } = require('../db/queries/stats');
 
 module.exports = (db) => {
-  
+
   router.get("/", (req, res) => {
     getStats(db).then((data) => {
       console.log("---------", data)
@@ -17,6 +17,7 @@ module.exports = (db) => {
       res.json(data)
     })
   })
+
   
   return router
 }
