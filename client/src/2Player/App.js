@@ -354,10 +354,10 @@ function App({socket, username, room}) {
 
           //----- START THE GAME -----//
 
-          // Start the game, and set the game duration to 61 seconds
+          // Start the game, and set the game duration to 91 seconds
           startNewGame();
 
-          gameTimer(61);
+          gameTimer(91);
         }
 
       },1000);
