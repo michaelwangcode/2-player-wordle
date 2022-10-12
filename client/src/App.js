@@ -70,11 +70,13 @@ function App() {
             <span style={{"--i":6}}>E</span>
           </h1>
           <br /><br />
+
           <button className='btn' onClick={select1PlayerGame}><h1>1 Player Game</h1></button>
           <br /><br />
           <button className='btn' onClick={select2PlayerGame}><h1>2 Player Game</h1></button>
           <br /><br />
           <button className='btn' onClick={selectHowToPlay}><h1>How To Play</h1></button>
+
           <br /><br />
         </div>
       )}

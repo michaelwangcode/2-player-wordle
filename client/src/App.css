@@ -243,6 +243,10 @@ nav h1 {
 }
 
 
+.menu-button {
+  width: 250px;
+}
+
 
 
 /*----- Styling for the 2 Player (Chat) Component -----*/
