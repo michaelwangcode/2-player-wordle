@@ -74,7 +74,9 @@ nav h1 {
   background-position: 100%;
   background-size: 400%;
   transition: background 300ms ease-in-out;
+  width: 250px;
 }
+
 .btn:hover {
   background-position: 0;
 }
@@ -241,13 +243,6 @@ nav h1 {
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
 }
-
-
-.menu-button {
-  width: 250px;
-}
-
-
 
 /*----- Styling for the 2 Player (Chat) Component -----*/
 
