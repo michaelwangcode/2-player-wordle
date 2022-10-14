@@ -38,6 +38,9 @@ Click on the "How To Play" button in the menu for an explanation of the rules.
 Thank you to:
 
 Lighthouse Labs and the mentors for their help with the project
+
 The official Wordle app
+
 PedroTech on Youtube for React and Socket tutorials
+
 Stanford GraphBase for the list of 5 letter words
