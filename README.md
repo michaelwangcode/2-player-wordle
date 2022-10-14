@@ -9,7 +9,7 @@ It is based on the original Wordle game and written using JavaScript, React, Nod
 
 ## Installation
 
-To install the app, download the app and install the dependencies using the `npm i` command in the terminal.
+To install the program, download the app and install the dependencies using the `npm i` command in the terminal.
 
 Navigate to the server folder by typing `cd server` and then `npm start`.
 
