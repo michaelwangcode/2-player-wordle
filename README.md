@@ -7,6 +7,13 @@
 It is based on the original Wordle game and written using JavaScript, React, Node.js and Socket.io.
 
 
+## Home Page
+
+Our home page includes an animated logo and three buttons.
+
+!["Home Page"](https://raw.githubusercontent.com/michaelwangcode/2-player-wordle/master/client/images/home.png)
+
+
 ## Installation
 
 To install the program, download the app and install the dependencies using the `npm i` command in the terminal.
@@ -16,13 +23,6 @@ Navigate to the server folder by typing `cd server` and then `npm start`.
 Next, navigate to the client folder by typing `cd client` and `npm start` to start the game.
 
 The game can then be played on `localhost:3000` in your web browser.
-
-
-## Home Page
-
-Our home page includes an animated logo and three buttons.
-
-!["Home Page"](https://raw.githubusercontent.com/michaelwangcode/2-player-wordle/master/client/images/home.png)
 
 
 ## How To Play
